@@ -11,8 +11,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.tonymaces.webapicallexample.R;
-import com.tonymaces.webapicallexample.adapter.UserAdapter;
-import com.tonymaces.webapicallexample.model.User;
+import com.tonymaces.webapicallexample.adapter.TerritoryAdapter;
+import com.tonymaces.webapicallexample.model.Territory;
 import com.tonymaces.webapicallexample.restApi.EndpointsApi;
 import com.tonymaces.webapicallexample.restApi.adapter.RestApiAdapter;
 
@@ -27,65 +27,58 @@ import retrofit2.Response;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class UsersFragment extends Fragment {
-    public static final String TAG = UsersFragment.class.toString();
+public class TerritoriesFragment extends Fragment {
+    public static final String TAG = TerritoriesFragment.class.toString();
     private RecyclerView mRecyclerView;
-    private UserAdapter mUserAdapter;
-    private ArrayList<User> mUsers;
+    private TerritoryAdapter  mTerritoryAdapter;
+    private ArrayList<Territory> mTerritories;
 
-    public UsersFragment() {
+    public TerritoriesFragment() {
         // Required empty public constructor
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-
-        View v = inflater.inflate(R.layout.fragment_users, container, false);
-
-        mRecyclerView = (RecyclerView) v.findViewById(R.id.rvUsers);
-
+        View view = inflater.inflate(R.layout.fragment_territories, container, false);
+        mRecyclerView = (RecyclerView) view.findViewById(R.id.rvTerritories);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         mRecyclerView.setLayoutManager(linearLayoutManager);
 
-        LoadUsers();
+        LoadTerritories();
         IniAdapter();
-        return v;
+
+        return  view;
     }
 
-    private void LoadUsers(){
-
-        RestApiAdapter restApiAdapter = new RestApiAdapter(); // esblece una conceccion con la api instagram
-        EndpointsApi endpointsApi = restApiAdapter.conectionRestApi(); // ejecuta la llamada al servidor
-        Call<List<User>> userResponseCall =  endpointsApi.getUsers();  // ejecuto la llamada al server
-
-        // con esto controllamos el resultado della respuesta
-        userResponseCall.enqueue(new Callback<List<User>>(){
+    private  void  LoadTerritories(){
+        RestApiAdapter restApiAdapter = new RestApiAdapter();
+        EndpointsApi endpointsApi = restApiAdapter.conectionRestApi();
+        Call<List<Territory>> territoryResponseCall = endpointsApi.getTerritories();
+        territoryResponseCall.enqueue(new Callback<List<Territory>>() {
             @Override
-            public void onResponse(Call<List<User>> call, Response<List<User>> response) {
+            public void onResponse(Call<List<Territory>> call, Response<List<Territory>> response) {
                 if (response.isSuccessful()){
                     Log.d(TAG,"response isSuccess");
-                    List<User> users = response.body();
-                    for (int i=0; i <users.size(); i++){
-                        User user = users.get(i);
-                        mUserAdapter.setUser(user);
+                    List<Territory> territories = response.body();
+                    for (int i=0; i <territories.size(); i++){
+                        Territory territory = territories.get(i);
+                        mTerritoryAdapter.setTerritory(territory);
                     }
                 }
             }
 
             @Override
-            public void onFailure(Call<List<User>> call, Throwable t) {
+            public void onFailure(Call<List<Territory>> call, Throwable t) {
                 Log.e("Call Failure", t.toString());
             }
         });
     }
 
     public  void IniAdapter(){
-
-        mUserAdapter = new UserAdapter(getActivity());
-        mRecyclerView.setAdapter(mUserAdapter);
+        mTerritoryAdapter = new TerritoryAdapter(getActivity());
+        mRecyclerView.setAdapter(mTerritoryAdapter);
     }
 }

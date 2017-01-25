@@ -2,6 +2,7 @@ package com.tonymaces.webapicallexample.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -43,6 +44,12 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
     @Override
     public int getItemCount() {
         return mUsers.size();
+    }
+
+    public void setUser(User user){
+        Log.d(TAG,user.getUsername());
+        mUsers.add(user);
+        notifyDataSetChanged();
     }
 
     public class UserViewHolder extends RecyclerView.ViewHolder {

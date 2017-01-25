@@ -23,7 +23,15 @@ public class User implements Serializable {
     @Expose
     private Date updatedAt;
     @Expose
-    private Date sessionToken;
+    private String sessionToken;
+
+    public String getSessionToken() {
+        return sessionToken;
+    }
+
+    public void setSessionToken(String sessionToken) {
+        this.sessionToken = sessionToken;
+    }
 
     public Date getUpdatedAt() {
         return updatedAt;
@@ -33,14 +41,6 @@ public class User implements Serializable {
         this.updatedAt = updatedAt;
     }
 
-    public Date getSessionToken() {
-        return sessionToken;
-    }
-
-    public void setSessionToken(Date sessionToken) {
-        this.sessionToken = sessionToken;
-    }
-
     public Date getCreatedAt() {
         return createdAt;
     }
@@ -48,9 +48,6 @@ public class User implements Serializable {
     public void setCreatedAt(Date createdAt) {
         this.createdAt = createdAt;
     }
-
-
-
 
     public String getId() {
         return id;
